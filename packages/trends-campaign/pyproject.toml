@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "trends-campaign"
+version = "0.1.0"
+description = "LLM-powered marketing campaign generation with RAG"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [{ name = "Neelmani Vispute", email = "neil.vispute@gmail.com" }]
+keywords = ["llm", "rag", "campaign-generation", "marketing", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.30"]
+openai = ["openai>=1.30"]
+cohere = ["cohere>=5.0"]
+all = ["anthropic>=0.30", "openai>=1.30", "cohere>=5.0"]
+
+[project.urls]
+Homepage = "https://github.com/neelmanivispute/trends-engine"
+Repository = "https://github.com/neelmanivispute/trends-engine"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/trends_campaign"]
